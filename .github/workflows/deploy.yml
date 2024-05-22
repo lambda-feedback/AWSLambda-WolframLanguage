@@ -1,0 +1,20 @@
+name: Deploy to Lambda Feedback
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: lambda-feedback/evaluation-function-workflows/.github/workflows/deploy.yml@main
+    with:
+      template-repository-name: 'lambda-feedback/evaluation-function-boilerplate-wolfram'
+      build-file: './Examples/aws-sam/http-mode/example-http-function/Dockerfile'
+      build-context: './Examples/aws-sam/http-mode/example-http-function'
+    secrets:
+      aws-key-id: ${{ secrets.LAMBDA_CONTAINER_PIPELINE_AWS_ID }}
+      aws-secret-key: ${{ secrets.LAMBDA_CONTAINER_PIPELINE_AWS_SECRET}}
+      function-admin-api-key: ${{ secrets.FUNCTION_ADMIN_API_KEY}}
